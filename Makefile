@@ -4,7 +4,15 @@ SRCS := src/main.cpp src/utils.cpp src/install.cpp src/dns_query.cpp src/help.cp
 OBJS := $(SRCS:.cpp=.o)
 TARGET := dns-tool
 
-.PHONY: all clean
+ifeq ($(TERMUX),1)
+    PREFIX ?= $(HOME)/../usr
+else
+    PREFIX ?= /usr/local
+endif
+DESTDIR ?=
+BINDIR := $(DESTDIR)$(PREFIX)/bin
+
+.PHONY: all clean install uninstall
 
 all: $(TARGET)
 
@@ -16,3 +24,10 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
+
+install: $(TARGET)
+	install -d $(BINDIR)
+	install -m 755 $(TARGET) $(BINDIR)/$(TARGET)
+
+uninstall:
+	rm -f $(BINDIR)/$(TARGET)

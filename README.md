@@ -1,7 +1,7 @@
 # DNS Query Tool
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/YOUR_USERNAME/REPO_NAME/build.yml?branch=main)](https://github.com/YOUR_USERNAME/REPO_NAME/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/gestforfan/dns-tool/build.yml?branch=main)](https://github.com/gestforfan/dns-tool/actions)
 
 基于C++17实现的增强版DNS诊断工具，支持自动依赖安装、CNAME追踪、多类型记录查询和子域名枚举。
 

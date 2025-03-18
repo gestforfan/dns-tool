@@ -70,10 +70,8 @@ DNSResult enhanced_dig(const string& domain, const string& type, int retries) {
     return result;
 }
 
-void query_domain(const string& domain, int retries, bool verbose, const string& indent) {
-    vector<string> record_types = {"A", "AAAA", "MX", "TXT", "NS", "SOA", "CNAME", "SRV"};
-
-    for (auto& type : record_types) {
+void query_domain(const string& domain, int retries, bool verbose, const vector<string>& types, const string& indent = "") {
+    for (const auto& type : types) {
         DNSResult result = enhanced_dig(domain, type, retries);
         
         if (!result.has_valid_records && !verbose) continue;

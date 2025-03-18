@@ -23,7 +23,9 @@ int main(int argc, char* argv[]) {
     int retries = 3;
 
     // 参数解析
+    vector<string> query_types = {"A", "AAAA", "MX", "TXT", "NS", "SOA", "CNAME", "SRV"}; // 默认所有类型
     for (int i = 2; i < argc; ++i) {
+
         if (strcmp(argv[i], "-a") == 0) {
             detailed = true;
             if (i+1 < argc && argv[i+1][0] != '-') {
@@ -37,6 +39,19 @@ int main(int argc, char* argv[]) {
             }
         } else if (strcmp(argv[i], "-v") == 0) {
             verbose = true;
+        } else if (strncmp(argv[i], "--type=", 7) == 0) {
+            string type_arg = argv[i] + 7;
+            vector<string> selected_types = split(type_arg, ',');
+            vector<string> valid_types = {"A", "AAAA", "MX", "TXT", "NS", "SOA", "CNAME", "SRV"};
+            bool has_invalid = false;
+            for (const string& t : selected_types) {
+                if (find(valid_types.begin(), valid_types.end(), t) == valid_types.end()) {
+                    cerr << COLOR_RED << "错误：无效的记录类型 '" << t << "'" << COLOR_RESET << endl;
+                    has_invalid = true;
+                }
+            }
+            if (has_invalid) return EXIT_FAILURE;
+            query_types = selected_types;
         } else {
             if (argv[i][0] == '-') {
                 cerr << COLOR_RED << "错误：未知选项 " << argv[i] << COLOR_RESET << endl;
